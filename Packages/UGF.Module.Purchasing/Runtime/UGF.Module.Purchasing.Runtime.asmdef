@@ -1,0 +1,14 @@
+{
+    "name": "UGF.Module.Purchasing.Runtime",
+    "rootNamespace": "UGF.Module.Purchasing.Runtime",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

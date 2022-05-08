@@ -1,0 +1,18 @@
+{
+    "name": "UGF.Module.Purchasing.Runtime.Tests",
+    "rootNamespace": "",
+    "references": [
+        "GUID:d98fce684210baf4f894396fb09425e9"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
