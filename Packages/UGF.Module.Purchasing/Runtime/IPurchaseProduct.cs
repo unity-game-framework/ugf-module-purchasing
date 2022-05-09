@@ -3,9 +3,7 @@
     public interface IPurchaseProduct
     {
         bool Available { get; }
-        float Price { get; }
-        string PriceLabel { get; }
-        string PriceIsoCode { get; }
+        IPurchasePrice Price { get; }
         string Receipt { get; }
         bool HasReceipt { get; }
     }
