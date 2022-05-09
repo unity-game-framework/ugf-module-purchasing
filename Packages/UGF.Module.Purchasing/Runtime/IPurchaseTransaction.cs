@@ -3,6 +3,7 @@
     public interface IPurchaseTransaction
     {
         string Id { get; }
+        string ProductId { get; }
         string Receipt { get; }
         bool HasReceipt { get; }
     }
