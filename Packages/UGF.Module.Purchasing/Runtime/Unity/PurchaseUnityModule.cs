@@ -4,10 +4,25 @@ using UGF.Application.Runtime;
 
 namespace UGF.Module.Purchasing.Runtime.Unity
 {
-    public class PurchaseModuleUnity : PurchaseModule<PurchaseModuleUnityDescription>
+    public class PurchaseUnityModule : PurchaseModule<PurchaseUnityModuleDescription>
     {
-        public PurchaseModuleUnity(PurchaseModuleUnityDescription description, IApplication application) : base(description, application)
+        public PurchaseUnityModule(PurchaseUnityModuleDescription description, IApplication application) : base(description, application)
         {
+        }
+
+        protected override void OnInitialize()
+        {
+            base.OnInitialize();
+        }
+
+        protected override Task OnInitializeAsync()
+        {
+            return base.OnInitializeAsync();
+        }
+
+        protected override void OnUninitialize()
+        {
+            base.OnUninitialize();
         }
 
         protected override Task<IPurchaseTransaction> OnPurchaseAsync(string productId)

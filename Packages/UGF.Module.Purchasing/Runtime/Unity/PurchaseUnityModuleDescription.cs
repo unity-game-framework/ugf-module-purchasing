@@ -2,7 +2,7 @@
 
 namespace UGF.Module.Purchasing.Runtime.Unity
 {
-    public class PurchaseModuleUnityDescription : ApplicationModuleDescription
+    public class PurchaseUnityModuleDescription : ApplicationModuleDescription
     {
     }
 }

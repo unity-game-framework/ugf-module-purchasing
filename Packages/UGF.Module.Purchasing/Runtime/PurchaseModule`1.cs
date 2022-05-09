@@ -5,10 +5,15 @@ using UGF.Application.Runtime;
 
 namespace UGF.Module.Purchasing.Runtime
 {
-    public abstract class PurchaseModule<TDescription> : ApplicationModule<TDescription>, IPurchaseModule where TDescription : class, IApplicationModuleDescription
+    public abstract class PurchaseModule<TDescription> : ApplicationModule<TDescription>, IPurchaseModule, IApplicationModuleAsync where TDescription : class, IApplicationModuleDescription
     {
         protected PurchaseModule(TDescription description, IApplication application) : base(description, application)
         {
+        }
+
+        public Task InitializeAsync()
+        {
+            return OnInitializeAsync();
         }
 
         public Task<IPurchaseTransaction> PurchaseAsync(string productId)
@@ -33,6 +38,11 @@ namespace UGF.Module.Purchasing.Runtime
         public Task<IDictionary<string, IPurchaseProduct>> GetProductsAsync()
         {
             return OnGetProductsAsync();
+        }
+
+        protected virtual Task OnInitializeAsync()
+        {
+            return Task.CompletedTask;
         }
 
         protected abstract Task<IPurchaseTransaction> OnPurchaseAsync(string productId);
