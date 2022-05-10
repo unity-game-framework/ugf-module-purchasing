@@ -63,12 +63,14 @@ namespace UGF.Module.Purchasing.Runtime.Unity
             });
         }
 
-        PurchaseProcessingResult IStoreListener.ProcessPurchase(PurchaseEventArgs purchaseEvent)
+        PurchaseProcessingResult IStoreListener.ProcessPurchase(PurchaseEventArgs arguments)
         {
+            Product product = arguments.purchasedProduct;
+
             return PurchaseProcessingResult.Complete;
         }
 
-        void IStoreListener.OnPurchaseFailed(Product product, PurchaseFailureReason failureReason)
+        void IStoreListener.OnPurchaseFailed(Product product, PurchaseFailureReason reason)
         {
             var transaction = new PurchaseTransaction(product.transactionID, product.definition.id);
 
@@ -81,9 +83,9 @@ namespace UGF.Module.Purchasing.Runtime.Unity
 
             Log.Debug("Unity store purchase failed", new
             {
-                product.definition.id,
-                product.transactionID,
-                failureReason
+                productId = product.definition.id,
+                transactionId = product.transactionID,
+                reason
             });
         }
     }
