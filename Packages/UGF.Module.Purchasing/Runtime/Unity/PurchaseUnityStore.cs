@@ -13,7 +13,8 @@ namespace UGF.Module.Purchasing.Runtime.Unity
         public IStoreController Controller { get { return m_controller ?? throw new ArgumentException("Value not specified."); } }
         public IExtensionProvider Extensions { get { return m_extensions ?? throw new ArgumentException("Value not specified."); } }
 
-        public event PurchaseTransactionHandler TransactionFailed;
+        public event PurchaseUnityProductHandler PurchasePending;
+        public event PurchaseUnityProductHandler PurchaseFailed;
 
         private InitializeState m_state;
         private bool? m_initializeResult;
@@ -67,19 +68,14 @@ namespace UGF.Module.Purchasing.Runtime.Unity
         {
             Product product = arguments.purchasedProduct;
 
-            return PurchaseProcessingResult.Complete;
+            PurchasePending?.Invoke(product.definition.id);
+
+            return PurchaseProcessingResult.Pending;
         }
 
         void IStoreListener.OnPurchaseFailed(Product product, PurchaseFailureReason reason)
         {
-            var transaction = new PurchaseTransaction(product.transactionID, product.definition.id);
-
-            if (product.hasReceipt)
-            {
-                transaction.SetReceipt(product.receipt);
-            }
-
-            TransactionFailed?.Invoke(transaction);
+            PurchaseFailed?.Invoke(product.definition.id);
 
             Log.Debug("Unity store purchase failed", new
             {
