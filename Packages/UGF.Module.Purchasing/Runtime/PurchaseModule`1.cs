@@ -10,6 +10,7 @@ namespace UGF.Module.Purchasing.Runtime
     public abstract class PurchaseModule<TDescription> : ApplicationModule<TDescription>, IPurchaseModule, IApplicationModuleAsync where TDescription : class, IApplicationModuleDescription
     {
         public bool IsAvailable { get { return OnCheckAvailable(); } }
+        public bool IsProcessingPurchase { get { return OnCheckProcessingPurchase(); } }
 
         private InitializeState m_state;
 
@@ -31,10 +32,11 @@ namespace UGF.Module.Purchasing.Runtime
             return OnInitializeAsync();
         }
 
-        public Task PurchaseStartAsync(string productId)
+        public Task<bool> PurchaseStartAsync(string productId)
         {
             if (string.IsNullOrEmpty(productId)) throw new ArgumentException("Value cannot be null or empty.", nameof(productId));
             if (!IsAvailable) throw new InvalidOperationException("Purchasing is unavailable.");
+            if (IsProcessingPurchase) throw new InvalidOperationException("Purchasing processing purchase already.");
 
             return OnPurchaseStartAsync(productId);
         }
@@ -43,6 +45,7 @@ namespace UGF.Module.Purchasing.Runtime
         {
             if (string.IsNullOrEmpty(productId)) throw new ArgumentException("Value cannot be null or empty.", nameof(productId));
             if (!IsAvailable) throw new InvalidOperationException("Purchasing is unavailable.");
+            if (IsProcessingPurchase) throw new InvalidOperationException("Purchasing processing purchase already.");
 
             return OnPurchaseConfirmAsync(productId);
         }
@@ -75,7 +78,8 @@ namespace UGF.Module.Purchasing.Runtime
         }
 
         protected abstract bool OnCheckAvailable();
-        protected abstract Task OnPurchaseStartAsync(string productId);
+        protected abstract bool OnCheckProcessingPurchase();
+        protected abstract Task<bool> OnPurchaseStartAsync(string productId);
         protected abstract Task OnPurchaseConfirmAsync(string productId);
         protected abstract Task<IList<string>> OnGetPendingProductsAsync();
         protected abstract Task<IDictionary<string, IPurchaseProduct>> OnGetProductsAsync();

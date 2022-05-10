@@ -8,8 +8,9 @@ namespace UGF.Module.Purchasing.Runtime
     public interface IPurchaseModule : IApplicationModule
     {
         bool IsAvailable { get; }
+        bool IsProcessingPurchase { get; }
 
-        Task PurchaseStartAsync(string productId);
+        Task<bool> PurchaseStartAsync(string productId);
         Task PurchaseConfirmAsync(string productId);
         Task<IList<string>> GetPendingProductsAsync();
         Task<IDictionary<string, IPurchaseProduct>> GetProductsAsync();
