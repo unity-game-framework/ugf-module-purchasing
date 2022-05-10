@@ -17,7 +17,7 @@ namespace UGF.Module.Purchasing.Runtime
             var description = new PurchaseProductDescription
             {
                 StoreId = m_storeId,
-                StoreType = m_productType
+                ProductType = m_productType
             };
 
             return description;
