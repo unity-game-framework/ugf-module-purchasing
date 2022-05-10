@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using UGF.Application.Runtime;
+using UGF.RuntimeTools.Runtime.Tasks;
 
 namespace UGF.Module.Purchasing.Runtime
 {
@@ -8,9 +9,10 @@ namespace UGF.Module.Purchasing.Runtime
     {
         bool IsAvailable { get; }
 
-        Task<IPurchaseTransaction> PurchaseAsync(string productId);
-        Task ConfirmAsync(string transactionId);
-        Task<IList<string>> GetPendingTransactionsAsync();
+        Task<string> PurchaseAsync(string productId);
+        Task ConfirmAsync(string productId);
+        Task<IList<string>> GetPendingProductsAsync();
         Task<IDictionary<string, IPurchaseProduct>> GetProductsAsync();
+        Task<TaskResult<string>> TryGetTransactionIdAsync(string productId);
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UGF.Application.Runtime;
 using UGF.Initialize.Runtime;
+using UGF.RuntimeTools.Runtime.Tasks;
 
 namespace UGF.Module.Purchasing.Runtime
 {
@@ -30,7 +31,7 @@ namespace UGF.Module.Purchasing.Runtime
             return OnInitializeAsync();
         }
 
-        public Task<IPurchaseTransaction> PurchaseAsync(string productId)
+        public Task<string> PurchaseAsync(string productId)
         {
             if (string.IsNullOrEmpty(productId)) throw new ArgumentException("Value cannot be null or empty.", nameof(productId));
             if (!IsAvailable) throw new InvalidOperationException("Purchasing is unavailable.");
@@ -46,11 +47,11 @@ namespace UGF.Module.Purchasing.Runtime
             return OnConfirmAsync(transactionId);
         }
 
-        public Task<IList<string>> GetPendingTransactionsAsync()
+        public Task<IList<string>> GetPendingProductsAsync()
         {
             if (!IsAvailable) throw new InvalidOperationException("Purchasing is unavailable.");
 
-            return OnGetPendingTransactionAsync();
+            return OnGetPendingProductsAsync();
         }
 
         public Task<IDictionary<string, IPurchaseProduct>> GetProductsAsync()
@@ -60,15 +61,24 @@ namespace UGF.Module.Purchasing.Runtime
             return OnGetProductsAsync();
         }
 
+        public Task<TaskResult<string>> TryGetTransactionIdAsync(string productId)
+        {
+            if (string.IsNullOrEmpty(productId)) throw new ArgumentException("Value cannot be null or empty.", nameof(productId));
+            if (!IsAvailable) throw new InvalidOperationException("Purchasing is unavailable.");
+
+            return OnTryGetTransactionIdAsync(productId);
+        }
+
         protected virtual Task OnInitializeAsync()
         {
             return Task.CompletedTask;
         }
 
         protected abstract bool OnCheckAvailable();
-        protected abstract Task<IPurchaseTransaction> OnPurchaseAsync(string productId);
+        protected abstract Task<string> OnPurchaseAsync(string productId);
         protected abstract Task OnConfirmAsync(string transactionId);
-        protected abstract Task<IList<string>> OnGetPendingTransactionAsync();
+        protected abstract Task<IList<string>> OnGetPendingProductsAsync();
         protected abstract Task<IDictionary<string, IPurchaseProduct>> OnGetProductsAsync();
+        protected abstract Task<TaskResult<string>> OnTryGetTransactionIdAsync(string productId);
     }
 }
