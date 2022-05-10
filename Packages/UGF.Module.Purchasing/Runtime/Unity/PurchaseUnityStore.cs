@@ -9,6 +9,7 @@ namespace UGF.Module.Purchasing.Runtime.Unity
     public class PurchaseUnityStore : IStoreListener
     {
         public ConfigurationBuilder Builder { get; }
+        public bool IsInitialized { get { return m_initializeResult ?? false; } }
         public IStoreController Controller { get { return m_controller ?? throw new ArgumentException("Value not specified."); } }
         public IExtensionProvider Extensions { get { return m_extensions ?? throw new ArgumentException("Value not specified."); } }
 
