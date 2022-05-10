@@ -6,6 +6,8 @@ namespace UGF.Module.Purchasing.Runtime
 {
     public interface IPurchaseModule : IApplicationModule
     {
+        bool IsAvailable { get; }
+
         Task<IPurchaseTransaction> PurchaseAsync(string productId);
         Task ConfirmAsync(string transactionId);
         Task<IList<string>> GetPendingTransactionsAsync();
