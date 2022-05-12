@@ -12,10 +12,10 @@ namespace UGF.Module.Purchasing.Runtime
         bool IsAvailable { get; }
         bool IsProcessingPurchase { get; }
 
-        Task<bool> PurchaseStartAsync(string productId);
-        Task PurchaseConfirmAsync(string productId);
+        Task<bool> PurchaseStartAsync(string id);
+        Task PurchaseConfirmAsync(string id);
         Task<IList<string>> GetPendingProductsAsync();
         Task<IDictionary<string, IPurchaseProduct>> GetProductsAsync();
-        Task<TaskResult<string>> TryGetTransactionIdAsync(string productId);
+        Task<TaskResult<string>> TryGetTransactionIdAsync(string id);
     }
 }

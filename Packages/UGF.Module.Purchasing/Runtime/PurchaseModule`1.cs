@@ -54,22 +54,22 @@ namespace UGF.Module.Purchasing.Runtime
             return OnInitializeAsync();
         }
 
-        public Task<bool> PurchaseStartAsync(string productId)
+        public Task<bool> PurchaseStartAsync(string id)
         {
-            if (string.IsNullOrEmpty(productId)) throw new ArgumentException("Value cannot be null or empty.", nameof(productId));
+            if (string.IsNullOrEmpty(id)) throw new ArgumentException("Value cannot be null or empty.", nameof(id));
             if (!IsAvailable) throw new InvalidOperationException("Purchasing is unavailable.");
             if (IsProcessingPurchase) throw new InvalidOperationException("Purchasing processing purchase already.");
 
-            return OnPurchaseStartAsync(productId);
+            return OnPurchaseStartAsync(id);
         }
 
-        public Task PurchaseConfirmAsync(string productId)
+        public Task PurchaseConfirmAsync(string id)
         {
-            if (string.IsNullOrEmpty(productId)) throw new ArgumentException("Value cannot be null or empty.", nameof(productId));
+            if (string.IsNullOrEmpty(id)) throw new ArgumentException("Value cannot be null or empty.", nameof(id));
             if (!IsAvailable) throw new InvalidOperationException("Purchasing is unavailable.");
             if (IsProcessingPurchase) throw new InvalidOperationException("Purchasing processing purchase already.");
 
-            return OnPurchaseConfirmAsync(productId);
+            return OnPurchaseConfirmAsync(id);
         }
 
         public Task<IList<string>> GetPendingProductsAsync()
@@ -86,12 +86,12 @@ namespace UGF.Module.Purchasing.Runtime
             return OnGetProductsAsync();
         }
 
-        public Task<TaskResult<string>> TryGetTransactionIdAsync(string productId)
+        public Task<TaskResult<string>> TryGetTransactionIdAsync(string id)
         {
-            if (string.IsNullOrEmpty(productId)) throw new ArgumentException("Value cannot be null or empty.", nameof(productId));
+            if (string.IsNullOrEmpty(id)) throw new ArgumentException("Value cannot be null or empty.", nameof(id));
             if (!IsAvailable) throw new InvalidOperationException("Purchasing is unavailable.");
 
-            return OnTryGetTransactionIdAsync(productId);
+            return OnTryGetTransactionIdAsync(id);
         }
 
         protected virtual Task OnInitializeAsync()
@@ -101,10 +101,10 @@ namespace UGF.Module.Purchasing.Runtime
 
         protected abstract bool OnCheckAvailable();
         protected abstract bool OnCheckProcessingPurchase();
-        protected abstract Task<bool> OnPurchaseStartAsync(string productId);
-        protected abstract Task OnPurchaseConfirmAsync(string productId);
+        protected abstract Task<bool> OnPurchaseStartAsync(string id);
+        protected abstract Task OnPurchaseConfirmAsync(string id);
         protected abstract Task<IList<string>> OnGetPendingProductsAsync();
         protected abstract Task<IDictionary<string, IPurchaseProduct>> OnGetProductsAsync();
-        protected abstract Task<TaskResult<string>> OnTryGetTransactionIdAsync(string productId);
+        protected abstract Task<TaskResult<string>> OnTryGetTransactionIdAsync(string id);
     }
 }

@@ -28,11 +28,11 @@ namespace UGF.Module.Purchasing.Runtime.Unity
             var module = StandardPurchasingModule.Instance();
             var builder = ConfigurationBuilder.Instance(module);
 
-            foreach ((_, PurchaseProductDescription description) in Description.Products)
+            foreach ((_, IPurchaseProductDescription value) in Products.Entries)
             {
-                ProductType productType = PurchaseUnityUtility.GetProductType(description.ProductType);
+                ProductType productType = PurchaseUnityUtility.GetProductType(value.Type);
 
-                builder.AddProduct(description.StoreId, productType);
+                builder.AddProduct(value.Id, productType);
             }
 
             m_store = new PurchaseUnityStore(builder);
