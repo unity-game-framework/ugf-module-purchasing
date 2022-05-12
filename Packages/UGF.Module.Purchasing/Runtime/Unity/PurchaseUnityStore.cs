@@ -42,6 +42,20 @@ namespace UGF.Module.Purchasing.Runtime.Unity
             return m_initializeResult.Value;
         }
 
+        public Product GetProduct(string id)
+        {
+            return TryGetProduct(id, out Product product) ? product : throw new ArgumentException($"Product not found by the specified id: '{id}'.");
+        }
+
+        public bool TryGetProduct(string id, out Product product)
+        {
+            if (string.IsNullOrEmpty(id)) throw new ArgumentException("Value cannot be null or empty.", nameof(id));
+
+            product = Controller.products.WithID(id);
+
+            return product != null;
+        }
+
         void IStoreListener.OnInitialized(IStoreController controller, IExtensionProvider extensions)
         {
             m_initializeResult = true;
