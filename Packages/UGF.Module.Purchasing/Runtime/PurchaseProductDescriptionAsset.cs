@@ -6,18 +6,18 @@ namespace UGF.Module.Purchasing.Runtime
     [CreateAssetMenu(menuName = "Unity Game Framework/Purchasing/Purchase Product Description", order = 2000)]
     public class PurchaseProductDescriptionAsset : BuilderAsset<PurchaseProductDescription>
     {
-        [SerializeField] private string m_storeId;
-        [SerializeField] private PurchaseProductType m_productType = PurchaseProductType.Consumable;
+        [SerializeField] private string m_id;
+        [SerializeField] private PurchaseProductType m_type = PurchaseProductType.Consumable;
 
-        public string StoreId { get { return m_storeId; } set { m_storeId = value; } }
-        public PurchaseProductType ProductType { get { return m_productType; } set { m_productType = value; } }
+        public string ID { get { return m_id; } set { m_id = value; } }
+        public PurchaseProductType Type { get { return m_type; } set { m_type = value; } }
 
         protected override PurchaseProductDescription OnBuild()
         {
             var description = new PurchaseProductDescription
             {
-                StoreId = m_storeId,
-                ProductType = m_productType
+                Id = m_id,
+                Type = m_type
             };
 
             return description;

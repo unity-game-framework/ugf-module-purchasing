@@ -4,7 +4,7 @@ namespace UGF.Module.Purchasing.Runtime
 {
     public interface IPurchaseProductDescription : IDescription
     {
-        string StoreId { get; }
-        PurchaseProductType ProductType { get; }
+        string Id { get; }
+        PurchaseProductType Type { get; }
     }
 }
