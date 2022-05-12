@@ -92,9 +92,7 @@ namespace UGF.Module.Purchasing.Runtime.Unity
                     await Task.Yield();
                 }
 
-                bool result = m_processingPurchaseResult.Value;
-
-                return result;
+                return m_processingPurchaseResult.Value;
             }
             finally
             {
