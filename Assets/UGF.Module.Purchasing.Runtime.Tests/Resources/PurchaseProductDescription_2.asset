@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: PurchaseProductDescription_2
   m_EditorClassIdentifier: 
   m_id: com.tests.product_2
-  m_type: 0
+  m_type: 1
