@@ -18,14 +18,14 @@ namespace UGF.Module.Purchasing.Runtime.Unity
             return product;
         }
 
-        public static ProductType GetProductType(PurchaseProductType productType)
+        public static ProductType GetProductType(PurchaseProductType type)
         {
-            return TryGetProductType(productType, out ProductType value) ? value : throw new ArgumentException($"Product type not found by the specified type: '{productType}'.");
+            return TryGetProductType(type, out ProductType value) ? value : throw new ArgumentException($"Product type not found by the specified type: '{type}'.");
         }
 
-        public static bool TryGetProductType(PurchaseProductType productType, out ProductType unityProductType)
+        public static bool TryGetProductType(PurchaseProductType type, out ProductType unityProductType)
         {
-            switch (productType)
+            switch (type)
             {
                 case PurchaseProductType.Consumable:
                 {
