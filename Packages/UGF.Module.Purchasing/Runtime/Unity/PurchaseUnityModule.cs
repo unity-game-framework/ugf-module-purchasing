@@ -75,11 +75,10 @@ namespace UGF.Module.Purchasing.Runtime.Unity
             return m_processingPurchase;
         }
 
-        protected override async Task<bool> OnPurchaseStartAsync(string productId)
+        protected override async Task<bool> OnPurchaseStartAsync(string id)
         {
-            Product product = Store.Controller.products.WithID(productId);
-
-            if (product == null) throw new ArgumentException($"Product not found by the specified id: '{productId}'.");
+            IPurchaseProductDescription description = Products.Get(id);
+            Product product = Store.GetProduct(description.Id);
 
             m_processingPurchase = true;
 
@@ -101,17 +100,17 @@ namespace UGF.Module.Purchasing.Runtime.Unity
             }
         }
 
-        protected override Task OnPurchaseConfirmAsync(string productId)
+        protected override Task OnPurchaseConfirmAsync(string id)
         {
-            if (!m_pending.Contains(productId)) throw new ArgumentException($"Pending product not found by the specified id: '{productId}'.");
+            IPurchaseProductDescription description = Products.Get(id);
 
-            Product product = Store.Controller.products.WithID(productId);
+            if (!m_pending.Contains(description.Id)) throw new ArgumentException($"Pending product not found by the specified id: '{description.Id}'.");
 
-            if (product == null) throw new ArgumentException($"Product not found by the specified id: '{productId}'.");
+            Product product = Store.GetProduct(description.Id);
 
             Store.Controller.ConfirmPendingPurchase(product);
 
-            m_pending.Remove(productId);
+            m_pending.Remove(description.Id);
 
             return Task.CompletedTask;
         }
@@ -122,7 +121,19 @@ namespace UGF.Module.Purchasing.Runtime.Unity
 
             foreach (string productId in m_pending)
             {
-                result.Add(productId);
+                if (TryGetProductDescriptionId(productId, out string id))
+                {
+                    result.Add(id);
+                }
+#if UGF_LOG_DEBUG
+                else
+                {
+                    Log.Debug("Pending product description not found by the specified product id", new
+                    {
+                        productId
+                    });
+                }
+#endif
             }
 
             return Task.FromResult<IList<string>>(result);
@@ -143,9 +154,10 @@ namespace UGF.Module.Purchasing.Runtime.Unity
             return Task.FromResult<IDictionary<string, IPurchaseProduct>>(result);
         }
 
-        protected override Task<TaskResult<string>> OnTryGetTransactionIdAsync(string productId)
+        protected override Task<TaskResult<string>> OnTryGetTransactionIdAsync(string id)
         {
-            Product product = Store.Controller.products.WithID(productId);
+            IPurchaseProductDescription description = Products.Get(id);
+            Product product = Store.GetProduct(description.Id);
 
             return product != null && !string.IsNullOrEmpty(product.transactionID)
                 ? Task.FromResult<TaskResult<string>>(product.transactionID)

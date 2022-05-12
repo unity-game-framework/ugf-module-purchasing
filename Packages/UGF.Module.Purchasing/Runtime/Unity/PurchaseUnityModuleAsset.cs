@@ -23,7 +23,7 @@ namespace UGF.Module.Purchasing.Runtime.Unity
             {
                 AssetReference<PurchaseProductDescriptionAsset> reference = m_products[i];
 
-                description.Products.Add(reference.Guid, reference.Asset.Build());
+                description.Products.Add(reference.Guid, reference.Asset);
             }
 
             return description;
