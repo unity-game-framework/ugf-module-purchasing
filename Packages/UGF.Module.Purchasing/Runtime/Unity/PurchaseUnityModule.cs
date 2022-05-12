@@ -80,6 +80,12 @@ namespace UGF.Module.Purchasing.Runtime.Unity
             IPurchaseProductDescription description = Products.Get(id);
             Product product = Store.GetProduct(description.Id);
 
+            Log.Debug("Purchase Unity module start purchase", new
+            {
+                id,
+                productId = product.definition.id
+            });
+
             m_processingPurchase = true;
 
             try
@@ -107,6 +113,12 @@ namespace UGF.Module.Purchasing.Runtime.Unity
             if (!m_pending.Contains(description.Id)) throw new ArgumentException($"Pending product not found by the specified id: '{description.Id}'.");
 
             Product product = Store.GetProduct(description.Id);
+
+            Log.Debug("Purchase Unity module confirming purchase", new
+            {
+                id,
+                productId = product.definition.id
+            });
 
             Store.Controller.ConfirmPendingPurchase(product);
 

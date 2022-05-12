@@ -80,6 +80,11 @@ namespace UGF.Module.Purchasing.Runtime.Unity
 
         PurchaseProcessingResult IStoreListener.ProcessPurchase(PurchaseEventArgs arguments)
         {
+            Log.Debug("Unity store process purchase", new
+            {
+                arguments.purchasedProduct.definition.id
+            });
+
             Product product = arguments.purchasedProduct;
 
             PurchasePending?.Invoke(product.definition.id);
@@ -89,14 +94,14 @@ namespace UGF.Module.Purchasing.Runtime.Unity
 
         void IStoreListener.OnPurchaseFailed(Product product, PurchaseFailureReason reason)
         {
-            PurchaseFailed?.Invoke(product.definition.id);
-
             Log.Debug("Unity store purchase failed", new
             {
                 productId = product.definition.id,
                 transactionId = product.transactionID,
                 reason
             });
+
+            PurchaseFailed?.Invoke(product.definition.id);
         }
     }
 }
