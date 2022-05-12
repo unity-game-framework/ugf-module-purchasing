@@ -2,20 +2,40 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UGF.Application.Runtime;
+using UGF.Builder.Runtime;
 using UGF.Initialize.Runtime;
+using UGF.RuntimeTools.Runtime.Providers;
 using UGF.RuntimeTools.Runtime.Tasks;
 
 namespace UGF.Module.Purchasing.Runtime
 {
-    public abstract class PurchaseModule<TDescription> : ApplicationModule<TDescription>, IPurchaseModule, IApplicationModuleAsync where TDescription : class, IApplicationModuleDescription
+    public abstract class PurchaseModule<TDescription> : ApplicationModule<TDescription>, IPurchaseModule, IApplicationModuleAsync where TDescription : class, IPurchaseModuleDescription
     {
+        public IProvider<string, IPurchaseProductDescription> Products { get; }
         public bool IsAvailable { get { return OnCheckAvailable(); } }
         public bool IsProcessingPurchase { get { return OnCheckProcessingPurchase(); } }
 
         private InitializeState m_state;
 
-        protected PurchaseModule(TDescription description, IApplication application) : base(description, application)
+        protected PurchaseModule(TDescription description, IApplication application) : this(description, application, new Provider<string, IPurchaseProductDescription>())
         {
+        }
+
+        protected PurchaseModule(TDescription description, IApplication application, IProvider<string, IPurchaseProductDescription> products) : base(description, application)
+        {
+            Products = products ?? throw new ArgumentNullException(nameof(products));
+        }
+
+        protected override void OnInitialize()
+        {
+            base.OnInitialize();
+
+            foreach ((string key, IBuilder<IPurchaseProductDescription> value) in Description.Products)
+            {
+                IPurchaseProductDescription description = value.Build();
+
+                Products.Add(key, description);
+            }
         }
 
         protected override void OnUninitialize()
@@ -23,6 +43,8 @@ namespace UGF.Module.Purchasing.Runtime
             base.OnUninitialize();
 
             m_state = m_state.Uninitialize();
+
+            Products.Clear();
         }
 
         public Task InitializeAsync()
