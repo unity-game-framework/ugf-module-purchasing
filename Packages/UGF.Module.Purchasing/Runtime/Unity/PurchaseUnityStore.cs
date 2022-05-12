@@ -30,7 +30,7 @@ namespace UGF.Module.Purchasing.Runtime.Unity
         {
             m_state = m_state.Initialize();
 
-            Log.Debug("Unity store initializing");
+            Log.Debug("Unity store initializing.");
 
             UnityPurchasing.Initialize(this, Builder);
 
