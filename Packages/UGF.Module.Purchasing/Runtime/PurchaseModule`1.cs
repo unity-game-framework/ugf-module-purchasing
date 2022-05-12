@@ -15,6 +15,7 @@ namespace UGF.Module.Purchasing.Runtime
         public bool IsAvailable { get { return OnCheckAvailable(); } }
         public bool IsProcessingPurchase { get { return OnCheckProcessingPurchase(); } }
 
+        private readonly Dictionary<string, string> m_productIds = new Dictionary<string, string>();
         private InitializeState m_state;
 
         protected PurchaseModule(TDescription description, IApplication application) : this(description, application, new Provider<string, IPurchaseProductDescription>())
@@ -30,6 +31,9 @@ namespace UGF.Module.Purchasing.Runtime
         {
             base.OnInitialize();
 
+            Products.Added += OnProductAdded;
+            Products.Removed += OnProductRemoved;
+
             foreach ((string key, IBuilder<IPurchaseProductDescription> value) in Description.Products)
             {
                 IPurchaseProductDescription description = value.Build();
@@ -42,7 +46,11 @@ namespace UGF.Module.Purchasing.Runtime
         {
             base.OnUninitialize();
 
+            Products.Added -= OnProductAdded;
+            Products.Removed -= OnProductRemoved;
+
             m_state = m_state.Uninitialize();
+            m_productIds.Clear();
 
             Products.Clear();
         }
@@ -94,6 +102,18 @@ namespace UGF.Module.Purchasing.Runtime
             return OnTryGetTransactionIdAsync(id);
         }
 
+        public string GetProductDescriptionId(string productId)
+        {
+            return TryGetProductDescriptionId(productId, out string id) ? id : throw new ArgumentException($"Product description id not found by the specified product id: '{productId}'.");
+        }
+
+        public bool TryGetProductDescriptionId(string productId, out string id)
+        {
+            if (string.IsNullOrEmpty(productId)) throw new ArgumentException("Value cannot be null or empty.", nameof(productId));
+
+            return m_productIds.TryGetValue(productId, out id);
+        }
+
         protected virtual Task OnInitializeAsync()
         {
             return Task.CompletedTask;
@@ -106,5 +126,27 @@ namespace UGF.Module.Purchasing.Runtime
         protected abstract Task<IList<string>> OnGetPendingProductsAsync();
         protected abstract Task<IDictionary<string, IPurchaseProduct>> OnGetProductsAsync();
         protected abstract Task<TaskResult<string>> OnTryGetTransactionIdAsync(string id);
+
+        protected virtual void OnProductAdded(string id, IPurchaseProductDescription description)
+        {
+        }
+
+        protected virtual void OnProductRemoved(string id, IPurchaseProductDescription description)
+        {
+        }
+
+        private void OnProductAdded(IProvider provider, string id, IPurchaseProductDescription entry)
+        {
+            m_productIds.Add(entry.Id, id);
+
+            OnProductAdded(id, entry);
+        }
+
+        private void OnProductRemoved(IProvider provider, string id, IPurchaseProductDescription entry)
+        {
+            m_productIds.Remove(entry.Id);
+
+            OnProductRemoved(id, entry);
+        }
     }
 }

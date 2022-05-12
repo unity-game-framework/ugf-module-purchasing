@@ -17,5 +17,7 @@ namespace UGF.Module.Purchasing.Runtime
         Task<IList<string>> GetPendingProductsAsync();
         Task<IDictionary<string, IPurchaseProduct>> GetProductsAsync();
         Task<TaskResult<string>> TryGetTransactionIdAsync(string id);
+        string GetProductDescriptionId(string productId);
+        bool TryGetProductDescriptionId(string productId, out string id);
     }
 }
