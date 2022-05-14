@@ -8,6 +8,7 @@ namespace UGF.Module.Purchasing.Runtime
 {
     public interface IPurchaseModule : IApplicationModule
     {
+        new IPurchaseModuleDescription Description { get; }
         IProvider<string, IPurchaseProductDescription> Products { get; }
         bool IsAvailable { get; }
         bool IsProcessingPurchase { get; }

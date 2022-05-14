@@ -15,6 +15,8 @@ namespace UGF.Module.Purchasing.Runtime
         public bool IsAvailable { get { return OnCheckAvailable(); } }
         public bool IsProcessingPurchase { get { return OnCheckProcessingPurchase(); } }
 
+        IPurchaseModuleDescription IPurchaseModule.Description { get { return Description; } }
+
         private readonly Dictionary<string, string> m_productIds = new Dictionary<string, string>();
         private InitializeState m_state;
 
