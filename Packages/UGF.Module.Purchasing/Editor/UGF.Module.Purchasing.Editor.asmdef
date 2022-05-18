@@ -1,0 +1,19 @@
+{
+    "name": "UGF.Module.Purchasing.Editor",
+    "rootNamespace": "UGF.Module.Purchasing.Editor",
+    "references": [
+        "GUID:d98fce684210baf4f894396fb09425e9",
+        "GUID:abdd615e45137c74ca2ce9c636c78c15"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
