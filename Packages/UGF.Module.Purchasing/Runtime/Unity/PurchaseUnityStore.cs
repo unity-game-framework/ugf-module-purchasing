@@ -30,7 +30,7 @@ namespace UGF.Module.Purchasing.Runtime.Unity
         {
             m_state = m_state.Initialize();
 
-            Log.Debug("Unity store initializing.");
+            Log.Debug("Purchase Unity store initializing.");
 
             UnityPurchasing.Initialize(this, Builder);
 
@@ -62,7 +62,7 @@ namespace UGF.Module.Purchasing.Runtime.Unity
             m_controller = controller;
             m_extensions = extensions;
 
-            Log.Debug("Unity store initialized", new
+            Log.Debug("Purchase Unity store initialized", new
             {
                 controller
             });
@@ -72,7 +72,7 @@ namespace UGF.Module.Purchasing.Runtime.Unity
         {
             m_initializeResult = false;
 
-            Log.Debug("Unity store initialization failed", new
+            Log.Debug("Purchase Unity store initialization failed", new
             {
                 error
             });
@@ -80,7 +80,7 @@ namespace UGF.Module.Purchasing.Runtime.Unity
 
         PurchaseProcessingResult IStoreListener.ProcessPurchase(PurchaseEventArgs arguments)
         {
-            Log.Debug("Unity store process purchase", new
+            Log.Debug("Purchase Unity store process purchase", new
             {
                 arguments.purchasedProduct.definition.id
             });
@@ -94,7 +94,7 @@ namespace UGF.Module.Purchasing.Runtime.Unity
 
         void IStoreListener.OnPurchaseFailed(Product product, PurchaseFailureReason reason)
         {
-            Log.Debug("Unity store purchase failed", new
+            Log.Debug("Purchase Unity store purchase failed", new
             {
                 productId = product.definition.id,
                 transactionId = product.transactionID,
