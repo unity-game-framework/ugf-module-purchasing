@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "com.ugf.application": "8.3.0",
+    "com.ugf.editortools": "2.8.1",
     "com.unity.purchasing": "4.2.1"
   }
 }
