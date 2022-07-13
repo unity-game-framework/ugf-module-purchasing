@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using UGF.Application.Runtime;
 using UGF.Builder.Runtime;
 using UGF.EditorTools.Runtime.Ids;
-using UGF.Initialize.Runtime;
 using UGF.RuntimeTools.Runtime.Providers;
 using UGF.RuntimeTools.Runtime.Tasks;
 
@@ -19,7 +18,6 @@ namespace UGF.Module.Purchasing.Runtime
         IPurchaseModuleDescription IPurchaseModule.Description { get { return Description; } }
 
         private readonly Dictionary<string, GlobalId> m_productIds = new Dictionary<string, GlobalId>();
-        private InitializeState m_state;
 
         protected PurchaseModule(TDescription description, IApplication application) : this(description, application, new Provider<GlobalId, IPurchaseProductDescription>())
         {
@@ -52,7 +50,6 @@ namespace UGF.Module.Purchasing.Runtime
             Products.Added -= OnProductAdded;
             Products.Removed -= OnProductRemoved;
 
-            m_state = m_state.Uninitialize();
             m_productIds.Clear();
 
             Products.Clear();
