@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using UGF.Application.Runtime;
-using UGF.EditorTools.Runtime.IMGUI.AssetReferences;
+using UGF.EditorTools.Runtime.Assets;
 using UnityEngine;
 
 namespace UGF.Module.Purchasing.Runtime.Unity
@@ -8,9 +8,9 @@ namespace UGF.Module.Purchasing.Runtime.Unity
     [CreateAssetMenu(menuName = "Unity Game Framework/Purchasing/Purchase Unity Module", order = 2000)]
     public class PurchaseUnityModuleAsset : ApplicationModuleAsset<PurchaseUnityModule, PurchaseUnityModuleDescription>
     {
-        [SerializeField] private List<AssetReference<PurchaseProductDescriptionAsset>> m_products = new List<AssetReference<PurchaseProductDescriptionAsset>>();
+        [SerializeField] private List<AssetIdReference<PurchaseProductDescriptionAsset>> m_products = new List<AssetIdReference<PurchaseProductDescriptionAsset>>();
 
-        public List<AssetReference<PurchaseProductDescriptionAsset>> Products { get { return m_products; } }
+        public List<AssetIdReference<PurchaseProductDescriptionAsset>> Products { get { return m_products; } }
 
         protected override IApplicationModuleDescription OnBuildDescription()
         {
@@ -21,7 +21,7 @@ namespace UGF.Module.Purchasing.Runtime.Unity
 
             for (int i = 0; i < m_products.Count; i++)
             {
-                AssetReference<PurchaseProductDescriptionAsset> reference = m_products[i];
+                AssetIdReference<PurchaseProductDescriptionAsset> reference = m_products[i];
 
                 description.Products.Add(reference.Guid, reference.Asset);
             }

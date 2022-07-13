@@ -9,7 +9,7 @@ namespace UGF.Module.Purchasing.Runtime
         [SerializeField] private string m_id;
         [SerializeField] private PurchaseProductType m_type = PurchaseProductType.Consumable;
 
-        public string ID { get { return m_id; } set { m_id = value; } }
+        public string Id { get { return m_id; } set { m_id = value; } }
         public PurchaseProductType Type { get { return m_type; } set { m_type = value; } }
 
         protected override IPurchaseProductDescription OnBuild()
