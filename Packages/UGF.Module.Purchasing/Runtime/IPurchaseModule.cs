@@ -19,7 +19,7 @@ namespace UGF.Module.Purchasing.Runtime
         Task<IList<GlobalId>> GetPendingProductsAsync();
         Task<IDictionary<string, IPurchaseProduct>> GetProductsAsync();
         Task<TaskResult<string>> TryGetTransactionIdAsync(GlobalId id);
-        GlobalId GetProductDescriptionId(string productId);
-        bool TryGetProductDescriptionId(string productId, out GlobalId id);
+        GlobalId GetProductDescriptionId(PurchaseProductId productId);
+        bool TryGetProductDescriptionId(PurchaseProductId productId, out GlobalId id);
     }
 }

@@ -17,7 +17,7 @@ namespace UGF.Module.Purchasing.Runtime
 
         IPurchaseModuleDescription IPurchaseModule.Description { get { return Description; } }
 
-        private readonly Dictionary<string, GlobalId> m_productIds = new Dictionary<string, GlobalId>();
+        private readonly Dictionary<PurchaseProductId, GlobalId> m_productIds = new Dictionary<PurchaseProductId, GlobalId>();
 
         protected PurchaseModule(TDescription description, IApplication application) : this(description, application, new Provider<GlobalId, IPurchaseProductDescription>())
         {
@@ -95,14 +95,14 @@ namespace UGF.Module.Purchasing.Runtime
             return OnTryGetTransactionIdAsync(id);
         }
 
-        public GlobalId GetProductDescriptionId(string productId)
+        public GlobalId GetProductDescriptionId(PurchaseProductId productId)
         {
             return TryGetProductDescriptionId(productId, out GlobalId id) ? id : throw new ArgumentException($"Product description id not found by the specified product id: '{productId}'.");
         }
 
-        public bool TryGetProductDescriptionId(string productId, out GlobalId id)
+        public bool TryGetProductDescriptionId(PurchaseProductId productId, out GlobalId id)
         {
-            if (string.IsNullOrEmpty(productId)) throw new ArgumentException("Value cannot be null or empty.", nameof(productId));
+            if (!productId.IsValid()) throw new ArgumentException("Value should be valid.", nameof(productId));
 
             return m_productIds.TryGetValue(productId, out id);
         }

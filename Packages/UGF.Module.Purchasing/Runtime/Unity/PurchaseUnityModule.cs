@@ -13,7 +13,7 @@ namespace UGF.Module.Purchasing.Runtime.Unity
     {
         public PurchaseUnityStore Store { get { return m_store ?? throw new ArgumentException("Value not specified."); } }
 
-        private readonly HashSet<string> m_pending = new HashSet<string>();
+        private readonly HashSet<PurchaseProductId> m_pending = new HashSet<PurchaseProductId>();
         private PurchaseUnityStore m_store;
         private bool m_processingPurchase;
         private bool? m_processingPurchaseResult;
@@ -33,7 +33,7 @@ namespace UGF.Module.Purchasing.Runtime.Unity
             {
                 ProductType productType = PurchaseUnityUtility.GetProductType(value.Type);
 
-                builder.AddProduct(value.Id, productType);
+                builder.AddProduct(value.Id.Value, productType);
             }
 
             m_store = new PurchaseUnityStore(builder);
@@ -80,7 +80,7 @@ namespace UGF.Module.Purchasing.Runtime.Unity
         protected override async Task<bool> OnPurchaseStartAsync(GlobalId id)
         {
             IPurchaseProductDescription description = Products.Get(id);
-            Product product = Store.GetProduct(description.Id);
+            Product product = Store.GetProduct(description.Id.Value);
 
             Log.Debug("Purchase Unity module start purchase", new
             {
@@ -114,7 +114,7 @@ namespace UGF.Module.Purchasing.Runtime.Unity
 
             if (!m_pending.Contains(description.Id)) throw new ArgumentException($"Pending product not found by the specified id: '{description.Id}'.");
 
-            Product product = Store.GetProduct(description.Id);
+            Product product = Store.GetProduct(description.Id.Value);
 
             Log.Debug("Purchase Unity module confirming purchase", new
             {
@@ -133,7 +133,7 @@ namespace UGF.Module.Purchasing.Runtime.Unity
         {
             var result = new List<GlobalId>();
 
-            foreach (string productId in m_pending)
+            foreach (PurchaseProductId productId in m_pending)
             {
                 if (TryGetProductDescriptionId(productId, out GlobalId id))
                 {
@@ -171,7 +171,7 @@ namespace UGF.Module.Purchasing.Runtime.Unity
         protected override Task<TaskResult<string>> OnTryGetTransactionIdAsync(GlobalId id)
         {
             IPurchaseProductDescription description = Products.Get(id);
-            Product product = Store.GetProduct(description.Id);
+            Product product = Store.GetProduct(description.Id.Value);
 
             return product != null && !string.IsNullOrEmpty(product.transactionID)
                 ? Task.FromResult<TaskResult<string>>(product.transactionID)
@@ -180,7 +180,7 @@ namespace UGF.Module.Purchasing.Runtime.Unity
 
         private void OnStorePurchasePending(string productId)
         {
-            m_pending.Add(productId);
+            m_pending.Add(new PurchaseProductId(productId));
 
             if (m_processingPurchase)
             {
