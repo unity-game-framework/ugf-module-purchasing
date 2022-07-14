@@ -13,7 +13,11 @@ MonoBehaviour:
   m_Name: PurchaseUnityModule
   m_EditorClassIdentifier: 
   m_products:
-  - m_guid: 047297d90e59e2c4c848667d9968f8a0
+  - m_guid:
+      m_first: 16340201123496499161
+      m_second: 11599135848735852744
     m_asset: {fileID: 11400000, guid: 047297d90e59e2c4c848667d9968f8a0, type: 2}
-  - m_guid: 8df1cccce236a854493bd229b36511c1
+  - m_guid:
+      m_first: 12129568420353133772
+      m_second: 13912012544099367753
     m_asset: {fileID: 11400000, guid: 8df1cccce236a854493bd229b36511c1, type: 2}

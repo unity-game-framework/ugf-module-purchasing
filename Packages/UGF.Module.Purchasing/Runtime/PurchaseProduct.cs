@@ -25,7 +25,7 @@ namespace UGF.Module.Purchasing.Runtime
 
         public void ClearReceipt()
         {
-            m_receipt = default;
+            m_receipt = string.Empty;
         }
     }
 }

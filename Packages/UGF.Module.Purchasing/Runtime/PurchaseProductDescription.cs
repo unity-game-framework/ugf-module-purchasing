@@ -4,7 +4,7 @@ namespace UGF.Module.Purchasing.Runtime
 {
     public class PurchaseProductDescription : DescriptionBase, IPurchaseProductDescription
     {
-        public string Id { get; set; }
+        public PurchaseProductId Id { get; set; }
         public PurchaseProductType Type { get; set; }
     }
 }
