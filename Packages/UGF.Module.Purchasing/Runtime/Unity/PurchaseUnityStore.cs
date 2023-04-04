@@ -78,6 +78,17 @@ namespace UGF.Module.Purchasing.Runtime.Unity
             });
         }
 
+        void IStoreListener.OnInitializeFailed(InitializationFailureReason error, string message)
+        {
+            m_initializeResult = false;
+
+            Log.Debug("Purchase Unity store initialization failed", new
+            {
+                error,
+                message
+            });
+        }
+
         PurchaseProcessingResult IStoreListener.ProcessPurchase(PurchaseEventArgs arguments)
         {
             Log.Debug("Purchase Unity store process purchase", new

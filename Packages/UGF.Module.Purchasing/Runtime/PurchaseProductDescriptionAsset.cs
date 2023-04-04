@@ -14,13 +14,7 @@ namespace UGF.Module.Purchasing.Runtime
 
         protected override IPurchaseProductDescription OnBuild()
         {
-            var description = new PurchaseProductDescription
-            {
-                Id = new PurchaseProductId(m_id),
-                Type = m_type
-            };
-
-            return description;
+            return new PurchaseProductDescription(new PurchaseProductId(m_id), m_type);
         }
     }
 }

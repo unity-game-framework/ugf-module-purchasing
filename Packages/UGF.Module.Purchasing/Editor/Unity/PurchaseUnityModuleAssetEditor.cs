@@ -1,4 +1,5 @@
-﻿using UGF.EditorTools.Editor.IMGUI;
+﻿using UGF.EditorTools.Editor.Assets;
+using UGF.EditorTools.Editor.IMGUI;
 using UGF.EditorTools.Editor.IMGUI.Scopes;
 using UGF.Module.Purchasing.Runtime.Unity;
 using UnityEditor;
@@ -8,22 +9,19 @@ namespace UGF.Module.Purchasing.Editor.Unity
     [CustomEditor(typeof(PurchaseUnityModuleAsset), true)]
     internal class PurchaseUnityModuleAssetEditor : UnityEditor.Editor
     {
-        private ReorderableListDrawer m_listProducts;
+        private AssetIdReferenceListDrawer m_listProducts;
         private ReorderableListSelectionDrawer m_listProductsSelection;
 
         private void OnEnable()
         {
-            m_listProducts = new ReorderableListDrawer(serializedObject.FindProperty("m_products"))
+            m_listProducts = new AssetIdReferenceListDrawer(serializedObject.FindProperty("m_products"))
             {
                 DisplayAsSingleLine = true
             };
 
             m_listProductsSelection = new ReorderableListSelectionDrawerByPath(m_listProducts, "m_asset")
             {
-                Drawer =
-                {
-                    DisplayTitlebar = true
-                }
+                Drawer = { DisplayTitlebar = true }
             };
 
             m_listProducts.Enable();

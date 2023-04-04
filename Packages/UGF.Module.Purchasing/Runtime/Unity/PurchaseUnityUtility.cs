@@ -8,7 +8,7 @@ namespace UGF.Module.Purchasing.Runtime.Unity
         public static PurchaseProduct GetProduct(Product unityProduct)
         {
             var price = new PurchasePrice((float)unityProduct.metadata.localizedPrice, unityProduct.metadata.localizedPriceString, unityProduct.metadata.isoCurrencyCode);
-            var product = new PurchaseProduct(price);
+            var product = new PurchaseProduct(unityProduct.availableToPurchase, price);
 
             if (unityProduct.hasReceipt)
             {

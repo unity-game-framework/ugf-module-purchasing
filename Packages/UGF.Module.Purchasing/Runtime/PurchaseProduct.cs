@@ -4,15 +4,16 @@ namespace UGF.Module.Purchasing.Runtime
 {
     public class PurchaseProduct : IPurchaseProduct
     {
-        public bool Available { get; set; }
+        public bool Available { get; }
         public IPurchasePrice Price { get; }
         public string Receipt { get { return HasReceipt ? m_receipt : throw new ArgumentException("Value not specified."); } }
         public bool HasReceipt { get { return !string.IsNullOrEmpty(m_receipt); } }
 
         private string m_receipt;
 
-        public PurchaseProduct(IPurchasePrice price)
+        public PurchaseProduct(bool available, IPurchasePrice price)
         {
+            Available = available;
             Price = price ?? throw new ArgumentNullException(nameof(price));
         }
 
