@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UGF.Application.Runtime;
 using UGF.EditorTools.Runtime.Assets;
+using UGF.EditorTools.Runtime.Ids;
 using UnityEngine;
 
 namespace UGF.Module.Purchasing.Runtime.Unity
@@ -14,19 +15,19 @@ namespace UGF.Module.Purchasing.Runtime.Unity
 
         protected override IApplicationModuleDescription OnBuildDescription()
         {
-            var description = new PurchaseUnityModuleDescription
-            {
-                RegisterType = typeof(IPurchaseModule)
-            };
+            var products = new Dictionary<GlobalId, IPurchaseProductDescription>();
 
             for (int i = 0; i < m_products.Count; i++)
             {
                 AssetIdReference<PurchaseProductDescriptionAsset> reference = m_products[i];
 
-                description.Products.Add(reference.Guid, reference.Asset);
+                products.Add(reference.Guid, reference.Asset.Build());
             }
 
-            return description;
+            return new PurchaseUnityModuleDescription(
+                typeof(IPurchaseModule),
+                products
+            );
         }
 
         protected override PurchaseUnityModule OnBuild(PurchaseUnityModuleDescription description, IApplication application)

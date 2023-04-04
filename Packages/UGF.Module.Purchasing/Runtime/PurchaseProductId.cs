@@ -15,7 +15,7 @@ namespace UGF.Module.Purchasing.Runtime
 
         public bool IsValid()
         {
-            return string.IsNullOrEmpty(Value);
+            return !string.IsNullOrEmpty(Value);
         }
 
         public bool Equals(PurchaseProductId other)

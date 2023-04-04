@@ -1,14 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UGF.Application.Runtime;
-using UGF.Builder.Runtime;
 using UGF.EditorTools.Runtime.Ids;
 
 namespace UGF.Module.Purchasing.Runtime
 {
     public class PurchaseModuleDescription : ApplicationModuleDescription, IPurchaseModuleDescription
     {
-        public Dictionary<GlobalId, IBuilder<IPurchaseProductDescription>> Products { get; } = new Dictionary<GlobalId, IBuilder<IPurchaseProductDescription>>();
+        public IReadOnlyDictionary<GlobalId, IPurchaseProductDescription> Products { get; }
 
-        IReadOnlyDictionary<GlobalId, IBuilder<IPurchaseProductDescription>> IPurchaseModuleDescription.Products { get { return Products; } }
+        public PurchaseModuleDescription(Type registerType, IReadOnlyDictionary<GlobalId, IPurchaseProductDescription> products)
+        {
+            RegisterType = registerType ?? throw new ArgumentNullException(nameof(registerType));
+            Products = products ?? throw new ArgumentNullException(nameof(products));
+        }
     }
 }

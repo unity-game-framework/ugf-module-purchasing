@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UGF.Application.Runtime;
-using UGF.Builder.Runtime;
 using UGF.EditorTools.Runtime.Ids;
 using UGF.RuntimeTools.Runtime.Providers;
 using UGF.RuntimeTools.Runtime.Tasks;
@@ -35,11 +34,9 @@ namespace UGF.Module.Purchasing.Runtime
             Products.Added += OnProductAdded;
             Products.Removed += OnProductRemoved;
 
-            foreach ((GlobalId key, IBuilder<IPurchaseProductDescription> value) in Description.Products)
+            foreach ((GlobalId id, IPurchaseProductDescription description) in Description.Products)
             {
-                IPurchaseProductDescription description = value.Build();
-
-                Products.Add(key, description);
+                Products.Add(id, description);
             }
         }
 
