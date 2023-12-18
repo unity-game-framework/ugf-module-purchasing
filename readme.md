@@ -4,14 +4,14 @@ UGF.Module.Purchasing
 
 ## Information
 
-- **Version**: `2.0.0-preview.1`
-- **Unity**: `2022.2`
+- **Version**: `2.0.0-preview.2`
+- **Unity**: `2023.2`
 - **API Compatibility Level**: `.NET Standard 2.1`
 
 ### Dependencies
 
-- `com.ugf.module.services`: `1.0.0-preview.1`
-- `com.unity.purchasing`: `4.7.0`
+- `com.ugf.module.services`: `1.0.0-preview.2`
+- `com.unity.purchasing`: `4.10.0`
 
 
 ### Description
