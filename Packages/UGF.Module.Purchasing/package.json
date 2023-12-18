@@ -2,7 +2,7 @@
   "name": "com.ugf.module.purchasing",
   "displayName": "UGF.Module.Purchasing",
   "version": "2.0.0-preview.1",
-  "unity": "2022.2",
+  "unity": "2023.2",
   "apiCompatibility": ".NET Standard 2.1",
   "description": "Module to manager Unity Purchasing.",
   "author": {
@@ -16,10 +16,10 @@
   "changelogUrl": "https://github.com/unity-game-framework/ugf-module-purchasing/blob/main/changelog.md",
   "licensesUrl": "https://github.com/unity-game-framework/ugf-module-purchasing/blob/main/license",
   "publishConfig": {
-    "registry": "https://unitygameframework.jfrog.io/artifactory/api/npm/default"
+    "registry": "https://api.upmhub.org/registries/unity-game-framework"
   },
   "dependencies": {
-    "com.ugf.module.services": "1.0.0-preview.1",
-    "com.unity.purchasing": "4.7.0"
+    "com.ugf.module.services": "1.0.0-preview.2",
+    "com.unity.purchasing": "4.10.0"
   }
 }

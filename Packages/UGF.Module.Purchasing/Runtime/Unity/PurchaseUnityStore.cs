@@ -3,10 +3,11 @@ using System.Threading.Tasks;
 using UGF.Initialize.Runtime;
 using UGF.Logs.Runtime;
 using UnityEngine.Purchasing;
+using UnityEngine.Purchasing.Extension;
 
 namespace UGF.Module.Purchasing.Runtime.Unity
 {
-    public class PurchaseUnityStore : IStoreListener
+    public class PurchaseUnityStore : IDetailedStoreListener
     {
         public ConfigurationBuilder Builder { get; }
         public bool IsInitialized { get { return m_initializeResult ?? false; } }
@@ -68,16 +69,6 @@ namespace UGF.Module.Purchasing.Runtime.Unity
             });
         }
 
-        void IStoreListener.OnInitializeFailed(InitializationFailureReason error)
-        {
-            m_initializeResult = false;
-
-            Log.Debug("Purchase Unity store initialization failed", new
-            {
-                error
-            });
-        }
-
         void IStoreListener.OnInitializeFailed(InitializationFailureReason error, string message)
         {
             m_initializeResult = false;
@@ -103,16 +94,27 @@ namespace UGF.Module.Purchasing.Runtime.Unity
             return PurchaseProcessingResult.Pending;
         }
 
-        void IStoreListener.OnPurchaseFailed(Product product, PurchaseFailureReason reason)
+        void IDetailedStoreListener.OnPurchaseFailed(Product product, PurchaseFailureDescription failureDescription)
         {
             Log.Debug("Purchase Unity store purchase failed", new
             {
                 productId = product.definition.id,
                 transactionId = product.transactionID,
-                reason
+                failureMessage = failureDescription.message,
+                failureReason = failureDescription.reason
             });
 
             PurchaseFailed?.Invoke(product.definition.id);
+        }
+
+        [Obsolete]
+        void IStoreListener.OnInitializeFailed(InitializationFailureReason error)
+        {
+        }
+
+        [Obsolete]
+        void IStoreListener.OnPurchaseFailed(Product product, PurchaseFailureReason reason)
+        {
         }
     }
 }
