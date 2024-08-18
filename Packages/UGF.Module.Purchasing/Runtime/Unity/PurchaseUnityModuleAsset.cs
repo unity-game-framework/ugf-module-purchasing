@@ -13,7 +13,7 @@ namespace UGF.Module.Purchasing.Runtime.Unity
 
         public List<AssetIdReference<PurchaseProductDescriptionAsset>> Products { get { return m_products; } }
 
-        protected override IApplicationModuleDescription OnBuildDescription()
+        protected override PurchaseUnityModuleDescription OnBuildDescription()
         {
             var products = new Dictionary<GlobalId, IPurchaseProductDescription>();
 
@@ -24,10 +24,7 @@ namespace UGF.Module.Purchasing.Runtime.Unity
                 products.Add(reference.Guid, reference.Asset.Build());
             }
 
-            return new PurchaseUnityModuleDescription(
-                typeof(IPurchaseModule),
-                products
-            );
+            return new PurchaseUnityModuleDescription(products);
         }
 
         protected override PurchaseUnityModule OnBuild(PurchaseUnityModuleDescription description, IApplication application)

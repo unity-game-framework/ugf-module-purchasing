@@ -2,7 +2,7 @@
 
 namespace UGF.Module.Purchasing.Runtime
 {
-    public readonly struct PurchaseProductId : IComparable<PurchaseProductId>
+    public readonly struct PurchaseProductId : IComparable<PurchaseProductId>, IEquatable<PurchaseProductId>
     {
         public string Value { get; }
 

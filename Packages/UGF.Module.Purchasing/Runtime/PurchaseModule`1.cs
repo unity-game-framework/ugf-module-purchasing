@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UGF.Application.Runtime;
 using UGF.EditorTools.Runtime.Ids;
+using UGF.Logs.Runtime;
 using UGF.RuntimeTools.Runtime.Providers;
 using UGF.RuntimeTools.Runtime.Tasks;
 
@@ -13,6 +14,8 @@ namespace UGF.Module.Purchasing.Runtime
         public IProvider<GlobalId, IPurchaseProductDescription> Products { get; }
         public bool IsAvailable { get { return OnCheckAvailable(); } }
         public bool IsProcessingPurchase { get { return OnCheckProcessingPurchase(); } }
+
+        protected ILog Logger { get; }
 
         IPurchaseModuleDescription IPurchaseModule.Description { get { return Description; } }
 
@@ -25,6 +28,8 @@ namespace UGF.Module.Purchasing.Runtime
         protected PurchaseModule(TDescription description, IApplication application, IProvider<GlobalId, IPurchaseProductDescription> products) : base(description, application)
         {
             Products = products ?? throw new ArgumentNullException(nameof(products));
+
+            Logger = Log.CreateWithLabel(GetType().Name);
         }
 
         protected override void OnInitialize()
@@ -38,6 +43,8 @@ namespace UGF.Module.Purchasing.Runtime
             {
                 Products.Add(id, description);
             }
+
+            Logger.Debug("Initialized.");
         }
 
         protected override void OnUninitialize()
@@ -50,6 +57,8 @@ namespace UGF.Module.Purchasing.Runtime
             m_productIds.Clear();
 
             Products.Clear();
+
+            Logger.Debug("Uninitialized.");
         }
 
         public Task<bool> PurchaseStartAsync(GlobalId id)

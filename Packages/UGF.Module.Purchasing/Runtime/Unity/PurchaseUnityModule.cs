@@ -40,7 +40,7 @@ namespace UGF.Module.Purchasing.Runtime.Unity
             m_store.PurchasePending += OnStorePurchasePending;
             m_store.PurchaseFailed += OnStorePurchaseFailed;
 
-            Log.Debug("Purchase Unity module initialized", new
+            Logger.Debug("Purchase Unity module initialized", new
             {
                 products = Description.Products.Count,
                 store = module.appStore
@@ -52,7 +52,7 @@ namespace UGF.Module.Purchasing.Runtime.Unity
             await base.OnInitializeAsync();
             await Store.InitializeAsync();
 
-            Log.Debug("Purchase Unity module store initialize complete", new
+            Logger.Debug("Purchase Unity module store initialize complete", new
             {
                 isInitialized = m_store.IsInitialized
             });
@@ -80,9 +80,10 @@ namespace UGF.Module.Purchasing.Runtime.Unity
         protected override async Task<bool> OnPurchaseStartAsync(GlobalId id)
         {
             IPurchaseProductDescription description = Products.Get(id);
+
             Product product = Store.GetProduct(description.Id.Value);
 
-            Log.Debug("Purchase Unity module start purchase", new
+            Logger.Debug("Purchase Unity module start purchase", new
             {
                 id,
                 productId = product.definition.id
@@ -116,7 +117,7 @@ namespace UGF.Module.Purchasing.Runtime.Unity
 
             Product product = Store.GetProduct(description.Id.Value);
 
-            Log.Debug("Purchase Unity module confirming purchase", new
+            Logger.Debug("Purchase Unity module confirming purchase", new
             {
                 id,
                 productId = product.definition.id
@@ -142,7 +143,7 @@ namespace UGF.Module.Purchasing.Runtime.Unity
 #if UGF_LOG_DEBUG
                 else
                 {
-                    Log.Debug("Pending product description not found by the specified product id", new
+                    Logger.Debug("Pending product description not found by the specified product id", new
                     {
                         productId
                     });
@@ -156,6 +157,7 @@ namespace UGF.Module.Purchasing.Runtime.Unity
         protected override Task<IDictionary<string, IPurchaseProduct>> OnGetProductsAsync()
         {
             var result = new Dictionary<string, IPurchaseProduct>();
+
             ProductCollection products = Store.Controller.products;
 
             foreach (Product unityProduct in products.set)
@@ -171,6 +173,7 @@ namespace UGF.Module.Purchasing.Runtime.Unity
         protected override Task<TaskResult<string>> OnTryGetTransactionIdAsync(GlobalId id)
         {
             IPurchaseProductDescription description = Products.Get(id);
+
             Product product = Store.GetProduct(description.Id.Value);
 
             return product != null && !string.IsNullOrEmpty(product.transactionID)
