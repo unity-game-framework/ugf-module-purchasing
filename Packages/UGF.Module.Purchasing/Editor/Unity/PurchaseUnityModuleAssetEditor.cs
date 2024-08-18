@@ -43,6 +43,10 @@ namespace UGF.Module.Purchasing.Editor.Unity
                 m_listProducts.DrawGUILayout();
                 m_listProductsSelection.DrawGUILayout();
             }
+
+#if !UGF_MODULE_PURCHASING_PURCHASING_INSTALLED
+            EditorGUILayout.HelpBox("Purchase Unity Module: Purchasing package required.", MessageType.Warning);
+#endif
         }
     }
 }

@@ -19,6 +19,12 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": [],
+    "versionDefines": [
+        {
+            "name": "com.unity.purchasing",
+            "expression": "4.12.2",
+            "define": "UGF_MODULE_PURCHASING_PURCHASING_INSTALLED"
+        }
+    ],
     "noEngineReferences": false
 }

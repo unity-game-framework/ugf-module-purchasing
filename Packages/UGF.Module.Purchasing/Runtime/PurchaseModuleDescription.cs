@@ -9,9 +9,8 @@ namespace UGF.Module.Purchasing.Runtime
     {
         public IReadOnlyDictionary<GlobalId, IPurchaseProductDescription> Products { get; }
 
-        public PurchaseModuleDescription(Type registerType, IReadOnlyDictionary<GlobalId, IPurchaseProductDescription> products)
+        public PurchaseModuleDescription(IReadOnlyDictionary<GlobalId, IPurchaseProductDescription> products)
         {
-            RegisterType = registerType ?? throw new ArgumentNullException(nameof(registerType));
             Products = products ?? throw new ArgumentNullException(nameof(products));
         }
     }

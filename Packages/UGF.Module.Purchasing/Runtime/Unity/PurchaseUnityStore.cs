@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if UGF_MODULE_PURCHASING_PURCHASING_INSTALLED
+using System;
 using System.Threading.Tasks;
 using UGF.Initialize.Runtime;
 using UGF.Logs.Runtime;
@@ -17,6 +18,7 @@ namespace UGF.Module.Purchasing.Runtime.Unity
         public event PurchaseUnityProductHandler PurchasePending;
         public event PurchaseUnityProductHandler PurchaseFailed;
 
+        private readonly ILog m_logger;
         private InitializeState m_state;
         private bool? m_initializeResult;
         private IStoreController m_controller;
@@ -25,13 +27,15 @@ namespace UGF.Module.Purchasing.Runtime.Unity
         public PurchaseUnityStore(ConfigurationBuilder builder)
         {
             Builder = builder ?? throw new ArgumentNullException(nameof(builder));
+
+            m_logger = Log.CreateWithLabel<PurchaseUnityStore>();
         }
 
         public async Task<bool> InitializeAsync()
         {
             m_state = m_state.Initialize();
 
-            Log.Debug("Purchase Unity store initializing.");
+            m_logger.Debug("Initializing.");
 
             UnityPurchasing.Initialize(this, Builder);
 
@@ -63,7 +67,7 @@ namespace UGF.Module.Purchasing.Runtime.Unity
             m_controller = controller;
             m_extensions = extensions;
 
-            Log.Debug("Purchase Unity store initialized", new
+            m_logger.Debug("Initialized", new
             {
                 controller
             });
@@ -73,7 +77,7 @@ namespace UGF.Module.Purchasing.Runtime.Unity
         {
             m_initializeResult = false;
 
-            Log.Debug("Purchase Unity store initialization failed", new
+            m_logger.Debug("Initialization failed", new
             {
                 error,
                 message
@@ -82,7 +86,7 @@ namespace UGF.Module.Purchasing.Runtime.Unity
 
         PurchaseProcessingResult IStoreListener.ProcessPurchase(PurchaseEventArgs arguments)
         {
-            Log.Debug("Purchase Unity store process purchase", new
+            m_logger.Debug("Process purchase", new
             {
                 arguments.purchasedProduct.definition.id
             });
@@ -96,7 +100,7 @@ namespace UGF.Module.Purchasing.Runtime.Unity
 
         void IDetailedStoreListener.OnPurchaseFailed(Product product, PurchaseFailureDescription failureDescription)
         {
-            Log.Debug("Purchase Unity store purchase failed", new
+            m_logger.Debug("Purchase failed", new
             {
                 productId = product.definition.id,
                 transactionId = product.transactionID,
@@ -118,3 +122,4 @@ namespace UGF.Module.Purchasing.Runtime.Unity
         }
     }
 }
+#endif
