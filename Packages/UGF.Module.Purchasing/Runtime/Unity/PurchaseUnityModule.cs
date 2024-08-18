@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if UGF_MODULE_PURCHASING_PURCHASING_INSTALLED
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UGF.Application.Runtime;
@@ -197,3 +198,4 @@ namespace UGF.Module.Purchasing.Runtime.Unity
         }
     }
 }
+#endif

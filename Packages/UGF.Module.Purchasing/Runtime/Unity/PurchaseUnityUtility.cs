@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if UGF_MODULE_PURCHASING_PURCHASING_INSTALLED
+using System;
 using UnityEngine.Purchasing;
 
 namespace UGF.Module.Purchasing.Runtime.Unity
@@ -49,3 +50,4 @@ namespace UGF.Module.Purchasing.Runtime.Unity
         }
     }
 }
+#endif

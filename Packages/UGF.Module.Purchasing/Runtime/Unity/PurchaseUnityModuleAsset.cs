@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UGF.Application.Runtime;
 using UGF.EditorTools.Runtime.Assets;
 using UGF.EditorTools.Runtime.Ids;
@@ -7,7 +8,12 @@ using UnityEngine;
 namespace UGF.Module.Purchasing.Runtime.Unity
 {
     [CreateAssetMenu(menuName = "Unity Game Framework/Purchasing/Purchase Unity Module", order = 2000)]
-    public class PurchaseUnityModuleAsset : ApplicationModuleAsset<PurchaseUnityModule, PurchaseUnityModuleDescription>
+    public class PurchaseUnityModuleAsset
+#if UGF_MODULE_PURCHASING_PURCHASING_INSTALLED
+        : ApplicationModuleAsset<PurchaseUnityModule, PurchaseUnityModuleDescription>
+#else
+        : ApplicationModuleAsset<IApplicationModule, PurchaseUnityModuleDescription>
+#endif
     {
         [SerializeField] private List<AssetIdReference<PurchaseProductDescriptionAsset>> m_products = new List<AssetIdReference<PurchaseProductDescriptionAsset>>();
 
@@ -27,9 +33,16 @@ namespace UGF.Module.Purchasing.Runtime.Unity
             return new PurchaseUnityModuleDescription(products);
         }
 
+#if UGF_MODULE_PURCHASING_PURCHASING_INSTALLED
         protected override PurchaseUnityModule OnBuild(PurchaseUnityModuleDescription description, IApplication application)
         {
             return new PurchaseUnityModule(description, application);
         }
+#else
+        protected override IApplicationModule OnBuild(PurchaseUnityModuleDescription description, IApplication application)
+        {
+            throw new NotSupportedException("Purchase Unity Module: Purchasing package required.");
+        }
+#endif
     }
 }

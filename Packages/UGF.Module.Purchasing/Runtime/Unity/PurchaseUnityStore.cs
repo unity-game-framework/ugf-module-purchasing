@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if UGF_MODULE_PURCHASING_PURCHASING_INSTALLED
+using System;
 using System.Threading.Tasks;
 using UGF.Initialize.Runtime;
 using UGF.Logs.Runtime;
@@ -121,3 +122,4 @@ namespace UGF.Module.Purchasing.Runtime.Unity
         }
     }
 }
+#endif
