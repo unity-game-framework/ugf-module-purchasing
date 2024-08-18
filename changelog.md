@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-preview.3](https://github.com/unity-game-framework/ugf-module-purchasing/releases/tag/2.0.0-preview.3) - 2024-08-18  
+
+### Release Notes
+
+- [Milestone](https://github.com/unity-game-framework/ugf-module-purchasing/milestone/5?closed=1)  
+    
+
+### Changed
+
+- Update package ([#9](https://github.com/unity-game-framework/ugf-module-purchasing/issues/9))  
+    - Update dependencies: `com.ugf.module.services` to `1.0.0-preview.3`, remove `com.unity.purchasing` package.
+    - Change `PurchaseModule<T>` and related classes to support updated _Application_ package.
+    - Change `PurchaseUnityModule` and related classes to only work when _Unity Purchasing_ package installed.
+
 ## [2.0.0-preview.2](https://github.com/unity-game-framework/ugf-module-purchasing/releases/tag/2.0.0-preview.2) - 2023-12-18  
 
 ### Release Notes
